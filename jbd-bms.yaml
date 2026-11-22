@@ -1,0 +1,215 @@
+# One JBD BMS read over Bluetooth. jbd-bridge.yaml includes this file once
+# per battery, filling in ${id}, ${name} and ${mac}. You shouldn't need to
+# edit it.
+
+web_server:
+  sorting_groups:
+    - id: ${id}_group
+      name: "${name}"
+
+ble_client:
+  - id: ${id}_client
+    mac_address: ${mac}
+
+jbd_bms_ble:
+  - id: ${id}
+    ble_client_id: ${id}_client
+    update_interval: 5s
+    auto_retrieve_hardware_version: false
+    # A few JBD models (e.g. SP04S034 V1.3) need the BMS app password:
+    # password: "123456"
+
+binary_sensor:
+  - platform: jbd_bms_ble
+    jbd_bms_ble_id: ${id}
+    online_status:
+      name: "${name} online"
+      web_server:
+        sorting_group_id: ${id}_group
+    charging:
+      name: "${name} charging"
+      web_server:
+        sorting_group_id: ${id}_group
+    discharging:
+      name: "${name} discharging"
+      web_server:
+        sorting_group_id: ${id}_group
+    balancing:
+      name: "${name} balancing"
+      web_server:
+        sorting_group_id: ${id}_group
+
+sensor:
+  - platform: jbd_bms_ble
+    jbd_bms_ble_id: ${id}
+    state_of_charge:
+      name: "${name} state of charge"
+      web_server:
+        sorting_group_id: ${id}_group
+    total_voltage:
+      name: "${name} total voltage"
+      web_server:
+        sorting_group_id: ${id}_group
+    current:
+      name: "${name} current"
+      web_server:
+        sorting_group_id: ${id}_group
+    power:
+      name: "${name} power"
+      web_server:
+        sorting_group_id: ${id}_group
+    capacity_remaining:
+      name: "${name} capacity remaining"
+      web_server:
+        sorting_group_id: ${id}_group
+    nominal_capacity:
+      name: "${name} nominal capacity"
+      web_server:
+        sorting_group_id: ${id}_group
+    charging_cycles:
+      name: "${name} charging cycles"
+      web_server:
+        sorting_group_id: ${id}_group
+    cell_count:
+      name: "${name} cell count"
+      web_server:
+        sorting_group_id: ${id}_group
+    min_cell_voltage:
+      name: "${name} min cell voltage"
+      web_server:
+        sorting_group_id: ${id}_group
+    max_cell_voltage:
+      name: "${name} max cell voltage"
+      web_server:
+        sorting_group_id: ${id}_group
+    delta_cell_voltage:
+      name: "${name} delta cell voltage"
+      web_server:
+        sorting_group_id: ${id}_group
+    average_cell_voltage:
+      name: "${name} average cell voltage"
+      web_server:
+        sorting_group_id: ${id}_group
+    min_voltage_cell:
+      name: "${name} lowest cell"
+      web_server:
+        sorting_group_id: ${id}_group
+    max_voltage_cell:
+      name: "${name} highest cell"
+      web_server:
+        sorting_group_id: ${id}_group
+    temperature_1:
+      name: "${name} temperature 1"
+      web_server:
+        sorting_group_id: ${id}_group
+    temperature_2:
+      name: "${name} temperature 2"
+      web_server:
+        sorting_group_id: ${id}_group
+    temperature_3:
+      name: "${name} temperature 3"
+      web_server:
+        sorting_group_id: ${id}_group
+    # LiFePO4 packs are usually 4S, 8S or 16S. Unused cells just stay blank.
+    cell_voltage_1:
+      name: "${name} cell 1"
+      web_server:
+        sorting_group_id: ${id}_group
+    cell_voltage_2:
+      name: "${name} cell 2"
+      web_server:
+        sorting_group_id: ${id}_group
+    cell_voltage_3:
+      name: "${name} cell 3"
+      web_server:
+        sorting_group_id: ${id}_group
+    cell_voltage_4:
+      name: "${name} cell 4"
+      web_server:
+        sorting_group_id: ${id}_group
+    cell_voltage_5:
+      name: "${name} cell 5"
+      web_server:
+        sorting_group_id: ${id}_group
+    cell_voltage_6:
+      name: "${name} cell 6"
+      web_server:
+        sorting_group_id: ${id}_group
+    cell_voltage_7:
+      name: "${name} cell 7"
+      web_server:
+        sorting_group_id: ${id}_group
+    cell_voltage_8:
+      name: "${name} cell 8"
+      web_server:
+        sorting_group_id: ${id}_group
+    cell_voltage_9:
+      name: "${name} cell 9"
+      web_server:
+        sorting_group_id: ${id}_group
+    cell_voltage_10:
+      name: "${name} cell 10"
+      web_server:
+        sorting_group_id: ${id}_group
+    cell_voltage_11:
+      name: "${name} cell 11"
+      web_server:
+        sorting_group_id: ${id}_group
+    cell_voltage_12:
+      name: "${name} cell 12"
+      web_server:
+        sorting_group_id: ${id}_group
+    cell_voltage_13:
+      name: "${name} cell 13"
+      web_server:
+        sorting_group_id: ${id}_group
+    cell_voltage_14:
+      name: "${name} cell 14"
+      web_server:
+        sorting_group_id: ${id}_group
+    cell_voltage_15:
+      name: "${name} cell 15"
+      web_server:
+        sorting_group_id: ${id}_group
+    cell_voltage_16:
+      name: "${name} cell 16"
+      web_server:
+        sorting_group_id: ${id}_group
+
+text_sensor:
+  - platform: jbd_bms_ble
+    jbd_bms_ble_id: ${id}
+    errors:
+      name: "${name} errors"
+      web_server:
+        sorting_group_id: ${id}_group
+    operation_status:
+      name: "${name} status"
+      web_server:
+        sorting_group_id: ${id}_group
+    balancing_cells:
+      name: "${name} balancing cells"
+      web_server:
+        sorting_group_id: ${id}_group
+    device_model:
+      name: "${name} model"
+      web_server:
+        sorting_group_id: ${id}_group
+
+switch:
+  # Turn this off to free the BMS so the phone app can connect to it
+  # (a JBD BMS accepts only one Bluetooth connection at a time).
+  - platform: ble_client
+    ble_client_id: ${id}_client
+    name: "${name} Bluetooth link"
+    web_server:
+      sorting_group_id: ${id}_group
+
+  # Charge/discharge MOSFET control is left out on purpose: anyone on the LAN
+  # could open the web page and cut power. To add it, uncomment:
+  # - platform: jbd_bms_ble
+  #   jbd_bms_ble_id: ${id}
+  #   charging:
+  #     name: "${name} allow charging"
+  #   discharging:
+  #     name: "${name} allow discharging"
